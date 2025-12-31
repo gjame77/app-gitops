@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: demo        # 설명: 배포 네임스페이스
+  labels:
+    app: web             # 설명: Service selector와 반드시 일치
+spec:
+  replicas: 2            # 설명: 파드 2개(롤링 업데이트 확인 쉬움)
+  selector:
+    matchLabels:
+      app: web           # 설명: 관리 대상 파드 라벨
+  template:
+    metadata:
+      labels:
+        app: web         # 설명: 파드 라벨(서비스가 이 라벨로 트래픽 전달)
+    spec:
+      containers:
+        - name: web
+          image: DOCKERHUB_USERNAME/app-demo:INITIAL
+          # 설명:
+          # - 이 image 라인(tag)이 GitOps “배포 트리거”
+          # - app-repo GitHub Actions가 이 라인을
+          #   DOCKERHUB_USERNAME/app-demo:<commit_sha> 로 자동 치환 후 app-gitops에 commit/push함
+          ports:
+            - containerPort: 80
+              # 설명: nginx 기본 포트
