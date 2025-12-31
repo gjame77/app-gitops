@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  namespace: demo
+  annotations:
+    kubernetes.io/ingress.class: alb
+    # 설명: AWS Load Balancer Controller가 이 Ingress를 처리
+
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # 설명: 인터넷 공개 ALB 생성
+
+    alb.ingress.kubernetes.io/target-type: ip
+    # 설명: 타겟을 Pod IP로 등록(일반적으로 ip 권장)
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            # 설명: / 로 들어오는 트래픽을 아래 서비스로 전달
+            backend:
+              service:
+                name: web-svc
+                port:
+                  number: 80
