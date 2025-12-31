@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: DOCKERHUB_USERNAME/app-demo:INITIAL
+          image: djame77/app-demo:5e18eb6eb99a50d0d45a4db4562078aa3498a0f1
           # 설명:
           # - 이 image 라인(tag)이 GitOps “배포 트리거”
           # - app-repo GitHub Actions가 이 라인을
